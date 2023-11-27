@@ -1,7 +1,6 @@
 #!/bin/bash
 
 checkAnswer() {
-    local answer
     while [[ $answer != "y" && $answer != "Y" && $answer != "n" && $answer != "N" ]]; do
         echo "$1"
         read -p "[Y/n]: " answer
@@ -14,8 +13,14 @@ ifaces=$(ip -br a | sed "s/  */ /g" | cut -d " " -f 1)
 for iface in $ifaces; do
     question="$iface -> Apply specific configuration? "
     checkAnswer "$question"
-    if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
-        echo "Aplicando configuración para $iface..."
+    if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+       static="Do you want static configuration?"
+       checkAnswer "$static"
+        if [[ "$answer" == "y" || "$answer" == "Y" ]]; then
+            echo "Apply configuration"
+        else
+            echo "DHCP"
+        fi
     else
         echo "No se aplica configuración para $iface."
     fi
