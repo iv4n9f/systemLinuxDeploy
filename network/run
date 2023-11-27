@@ -1,0 +1,6 @@
+#!/bin/sh
+
+$ifaces=$(ip -br a | sed "s/  */ /g | cut -d " " -f 1)
+
+for iface in $ifaces; do
+    echo $iface
