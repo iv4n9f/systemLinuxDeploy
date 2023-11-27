@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
 checkAnswer() {
     while [[ $answer != "y" && $answer != "Y" && $answer != "n" && $answer != "N" ]]; do
-        echo $1
-        read -p "Respuesta (y/n): " answer
+        echo $@
+        read -p "$@ (y/n): " answer
     done
 }
 
