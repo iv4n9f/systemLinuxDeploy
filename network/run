@@ -1,17 +1,15 @@
 #!/bin/sh
 
-checkAnswer (){
-    while [[ $answer != "y" || $answer != "Y" || $answer != "n" || $answer != "n"   ]]; do
+checkAnswer() {
+    while [[ $answer != "y" && $answer != "Y" && $answer != "n" && $answer != "N" ]]; do
         echo $1
-        read answer
+        read -p "Respuesta (y/n): " answer
     done
 }
 
 ifaces=$(ip -br a | sed "s/  */ /g" | cut -d " " -f 1)
 
-
-
 for iface in $ifaces; do
-    question=$(echo "$iface -> Apply specific configuration ? [Y/n] :)
+    question=$(echo "$iface -> Apply specific configuration ? [Y/n] :")
     checkAnswer $question
 done
