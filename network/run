@@ -1,6 +1,17 @@
 #!/bin/sh
 
-$ifaces=$(ip -br a | sed "s/  */ /g | cut -d " " -f 1)
+checkAnswer (){
+    while [[ $answer != "y" || $answer != "Y" || $answer != "n" || $answer != "n"   ]]; do
+        echo $1
+        read answer
+    done
+}
+
+ifaces=$(ip -br a | sed "s/  */ /g" | cut -d " " -f 1)
+
+
 
 for iface in $ifaces; do
-    echo $iface
+    question=$(echo "$iface -> Apply specific configuration ? [Y/n] :)
+    checkAnswer $question
+done
