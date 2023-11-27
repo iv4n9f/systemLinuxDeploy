@@ -1,15 +1,22 @@
 #!/bin/bash
 
 checkAnswer() {
+    local answer
     while [[ $answer != "y" && $answer != "Y" && $answer != "n" && $answer != "N" ]]; do
-        echo $@
-        read -p "$@ (y/n): " answer
+        echo "$1"
+        read -p "[Y/n]: " answer
     done
+    echo "Respuesta válida: $answer"
 }
 
 ifaces=$(ip -br a | sed "s/  */ /g" | cut -d " " -f 1)
 
 for iface in $ifaces; do
-    question=$(echo "$iface -> Apply specific configuration ? [Y/n] :")
-    checkAnswer $question
+    question="$iface -> Apply specific configuration? "
+    checkAnswer "$question"
+    if [ "$answer" == "y" ] || [ "$answer" == "Y" ]; then
+        echo "Aplicando configuración para $iface..."
+    else
+        echo "No se aplica configuración para $iface."
+    fi
 done
